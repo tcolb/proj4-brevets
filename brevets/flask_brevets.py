@@ -55,15 +55,18 @@ def _calc_times():
     data = request.get_json(force=True)
     # FIXME Currently have to force json because of incorrectly setup headers
     # https://stackoverflow.com/questions/20001229/how-to-get-posted-json-in-flask
-    app.logger.debug(">>>> " + data["km"])
+
+    # In form: YYYY-MM-DDThh:mm
+    make_date = arrow.get("{}T{}".format(data['date'], data['time']))
+    iso_date = make_date.isoformat()
 
     open_time = acp_times.open_time(data['km'],
-                                    data["dist"],
-                                    arrow.now().isoformat())
+                                    data['dist'],
+                                    iso_date)
 
     close_time = acp_times.close_time(data['km'],
                                       data["dist"],
-                                      arrow.now().isoformat())
+                                      iso_date)
 
     result = {"open": open_time, "close": close_time}
     return flask.jsonify(result=result)

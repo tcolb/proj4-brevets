@@ -129,12 +129,9 @@
     var controle = {
         'km': control.find("input[name='km']").val(),
         'dist': control.find("select[name='distance']").text(),
-        'date': control.find("input[name='begin_date']").val(),
-        'time': control.find("input[name='begin_time']").val()
+        'date': $("#begin_date").val(),
+        'time': $("#begin_time").val()
     }
-
-    console.log(control.find("input[id='begin_date']").val())
-    console.log(control.find("input[name='begin_time']").val())
 
     // http://api.jquery.com/jquery.ajax/
     $.ajax({
