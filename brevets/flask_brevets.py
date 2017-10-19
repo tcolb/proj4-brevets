@@ -57,7 +57,8 @@ def _calc_times():
     # https://stackoverflow.com/questions/20001229/how-to-get-posted-json-in-flask
 
     # In form: YYYY-MM-DDThh:mm
-    make_date = arrow.get("{}T{}".format(data['date'], data['time']))
+    date = "{}T{}-08:00".format(data['date'], data['time'])
+    make_date = arrow.get(date)
     iso_date = make_date.isoformat()
 
     open_time = acp_times.open_time(data['km'],

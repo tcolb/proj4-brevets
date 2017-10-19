@@ -16,7 +16,11 @@ import math
 #  javadoc comments.
 #
 
-time_calc = {"100": 34, "200": 34, "300": 32, "400": 32, "600": 30, "1000": 28}
+opening_table = {"100": 34, "200": 34, "300": 32, "400": 32, "500": 30,
+                 "600": 30, "700": 28, "800": 28, "900": 28}
+
+closing_table = {"100": 15, "200": 15, "300": 15, "400": 15, "500": 15,
+                 "600": 15, "700": 11.428, "800": 11.428, "900": 11.428}
 
 
 def open_time(control_dist_km, brevet_dist_km, brevet_start_time):
@@ -32,18 +36,15 @@ def open_time(control_dist_km, brevet_dist_km, brevet_start_time):
        An ISO 8601 format date string indicating the control open time.
        This will be in the same time zone as the brevet start time.
     """
+    rounded_dist = int(math.ceil(float(control_dist_km) / 100.0) * 100)
 
-    """
-    rounded_control_dist = int(math.ceil(float(control_dist_km) / 100.0) * 100)
-
-    calc_time = float(control_dist_km) / time_calc[str(rounded_control_dist)]
+    calc_time = float(control_dist_km) / float(opening_table[str(rounded_dist)])
 
     arrow_date = arrow.get(brevet_start_time)
 
-    return arrow_date.shift(hours=calc_time).isoformat()
-    """
+    arrow_some = arrow_date.shift(hours=+calc_time)
 
-    return arrow.now().isoformat()
+    return arrow_some.isoformat()
 
 
 def close_time(control_dist_km, brevet_dist_km, brevet_start_time):
@@ -59,4 +60,12 @@ def close_time(control_dist_km, brevet_dist_km, brevet_start_time):
        An ISO 8601 format date string indicating the control close time.
        This will be in the same time zone as the brevet start time.
     """
-    return arrow.now().isoformat()
+    rounded_dist = int(math.ceil(float(control_dist_km) / 100.0) * 100)
+
+    calc_time = float(control_dist_km) / float(closing_table[str(rounded_dist)])
+
+    arrow_date = arrow.get(brevet_start_time)
+
+    arrow_some = arrow_date.shift(hours=+calc_time)
+
+    return arrow_some.isoformat()
