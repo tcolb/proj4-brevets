@@ -54,6 +54,7 @@ def _calc_times():
     app.logger.debug("Got a JSON request")
     data = request.get_json(force=True)
     # FIXME Currently have to force json because of incorrectly setup headers
+    # https://stackoverflow.com/questions/20001229/how-to-get-posted-json-in-flask
     app.logger.debug(">>>> " + data["km"])
 
     open_time = acp_times.open_time(data['km'],

@@ -67,7 +67,7 @@
   <div class="col-md-6">
     <label>Begins at</label>
     <input type=date name="begin_date" id="begin_date" value="2017-01-01" />
-    <input type=time name="begin_time" id="begin_time" value="00:00"    />
+    <input type=time name="begin_time" id="begin_time" value="00:00"/>
   </div> <!-- columns 5-10 -->
   </div> <!-- row -->
 
@@ -127,15 +127,20 @@
     var close_time_field = control.find("input[name='close']");
 
     var controle = {
-        km: control.find("input[name='km']").val(),
-        dist: control.find("select[name='distance']").text(),
-        date: control.find("input[name='begin_date']").val(),
-        time: control.find("input[name='begin_time']").val()
+        'km': control.find("input[name='km']").val(),
+        'dist': control.find("select[name='distance']").text(),
+        'date': control.find("input[name='begin_date']").val(),
+        'time': control.find("input[name='begin_time']").val()
     }
 
+    console.log(control.find("input[id='begin_date']").val())
+    console.log(control.find("input[name='begin_time']").val())
+
+    // http://api.jquery.com/jquery.ajax/
     $.ajax({
        type: "POST",
        url: TIME_CALC_URL,
+       contentType: "application/json; charset=utf-8",
        dataType: "json",
        data: JSON.stringify(controle),
        success: function(data) {
