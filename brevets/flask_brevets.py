@@ -44,7 +44,7 @@ def page_not_found(error):
 #   These return JSON, rather than rendering pages.
 #
 ###############
-@app.route("/_calc_times")
+@app.route("/_calc_times", methods=["GET", "POST"])
 def _calc_times():
     """
     Calculates open/close times from miles, using rules
@@ -52,13 +52,18 @@ def _calc_times():
     Expects one URL-encoded argument, the number of miles.
     """
     app.logger.debug("Got a JSON request")
-    km = request.args.get('km', 999, type=float)
-    app.logger.debug("km={}".format(km))
-    app.logger.debug("request.args: {}".format(request.args))
-    # FIXME: These probably aren't the right open and close times
-    # and brevets may be longer than 200km
-    open_time = acp_times.open_time(km, 200, arrow.now().isoformat)
-    close_time = acp_times.close_time(km, 200, arrow.now().isoformat)
+    data = request.get_json(force=True)
+    # FIXME Currently have to force json because of incorrectly setup headers
+    app.logger.debug(">>>> " + data["km"])
+
+    open_time = acp_times.open_time(data['km'],
+                                    data["dist"],
+                                    arrow.now().isoformat())
+
+    close_time = acp_times.close_time(data['km'],
+                                      data["dist"],
+                                      arrow.now().isoformat())
+
     result = {"open": open_time, "close": close_time}
     return flask.jsonify(result=result)
 
