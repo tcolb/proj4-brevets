@@ -87,6 +87,25 @@
 	<th>Close</th>
 	<th>Notes</th>
       </tr>
+
+    <tr class="control" id="fentry">
+      <!-- Dist (mi) -->
+      <td><input name="miles" type="number"
+           min="0" max="900" size="5" id="mmark" /></td>
+      <!-- Dist (km) -->
+      <td><input name="km" type="text"
+           min="0" max="1100" size="5" id="kmark" /> </td>
+      <!-- Location (optional) -->
+      <td><input name="location" type="text"
+          placeholder="Optional location name"
+          size="20" /> </td>
+      <!-- Open time (read only, set by JavaScript function -->
+      <td><input name="open" type="datetime" value=$.() readonly /></td>
+      <!-- Close time (read only, set by JavaScript function -->
+      <td><input name="close" type="datetime" value="" readonly /></td>
+      <!-- Notes (error messages for this row) -->
+      <td class="notes"> &nbsp; </td>
+    </tr>
    {% for row in range(20) %}
     <tr class="control">
       <!-- Dist (mi) -->
@@ -148,20 +167,6 @@
          close_time_field.val( moment(times.close).format("ddd M/D H:mm"));
        }
     });
-
-    /*
-    $.getJSON(TIME_CALC_URL, { km: km },
-      // response handler
-      function(data) {
-         var times = data.result;
-         console.log("Got a response: " +  times);
-         console.log("Response.open = " + times.open);
-         open_time_field.val( moment(times.open).format("ddd M/D H:mm"));
-         close_time_field.val( moment(times.close).format("ddd M/D H:mm"));
-       } // end of handler function
-     );// End of getJSON
-    }
-    */
   }
 
   $(document).ready(function(){
@@ -191,6 +196,9 @@
              calc_times(control_entry);
           });
 
+      $("#kmark").val(0);
+      $("#mmark").val(0);
+      calc_times($("#fentry"))
      });   // end of what we do on document ready
 
 </script>
