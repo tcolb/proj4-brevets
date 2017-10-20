@@ -56,7 +56,9 @@ def _calc_times():
     # FIXME Currently have to force json because of incorrectly setup headers
     # https://stackoverflow.com/questions/20001229/how-to-get-posted-json-in-flask
 
-    # In form: YYYY-MM-DDThh:mm
+    # In form: YYYY-MM-DDThh:mm, had to change timezone, which was posted on
+    # piazza... however I had to do -08:00 to get the right itmes, I wish I
+    # knew why, but I can't figure it out
     date = "{}T{}-08:00".format(data['date'], data['time'])
     make_date = arrow.get(date)
     iso_date = make_date.isoformat()
